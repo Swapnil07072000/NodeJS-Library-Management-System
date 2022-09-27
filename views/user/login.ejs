@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" 
+	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
+	crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Login Page</title>
+</head>
+<body>
+    <div style="text-align: center;padding:5rem;top: 20%;" class="container  container-fluid ">
+        <div class="container">
+            <i class="bi-person-circle" style="font-size: 10rem;"></i>
+        </div>
+        <div class="container pt-2 ">
+            <form  action="/load_page" method="POST" class="form user-form">
+                <div class="alert-box">
+                </div>
+                <p hidden name="dashboard"></p>
+                <div class="mb-3">
+                    <input type="text" id="uname" class="form-control-lg" placeholder="Username" required />
+                </div>
+                <div class="mb-3">
+                    <input type="password" id="pwd" class="form-control-lg" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn btn-primary justify-content-center">Login</button>
+                <button type="cancel" class="btn btn-danger">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('.user-form').submit(function(e){
+                var uname = $('#uname').val();
+                var pwd = $('#pwd').val();
+                userlogin(uname, pwd);
+                var page = "dashboard";
+                load_page(page);
+                //e.preventDefault();
+            })
+        })
+        function userlogin(name, pwd){
+            data = {
+                name: name,
+                pwd: pwd,
+            }
+            $.ajax({
+                type: "post",
+                url: "/api/userlogin",
+                data: data,
+                dataType: "json",
+                success:function(data){
+                    if(data.status == 200){
+                        //alert('User Present')
+                    }else if(data.status == 404){
+                        alert('User not Present')
+                        
+                    }
+                }
+            })
+        }
+
+        function load_page(pageName){
+            data = {
+                page: pageName,
+            }
+            $.ajax({
+                type: "post",
+                url: "/pageName",
+                data: data,
+                success: function(data){
+                    if(data.status == 200){
+                        console.log("Logged IN");
+                    }
+                }
+            })
+        }
+    </script>    
+</body>
+</html>
