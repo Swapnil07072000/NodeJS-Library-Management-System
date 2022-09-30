@@ -58,9 +58,9 @@
                 dataType: "json",
                 success:function(data){
                     if(data.status == 200){
-                        alert('User Present')
+                        console('Logged In')
                     }else if(data.status == 404){
-                        alert('Not Allowed')
+                        alert('Wrong Username or Password')
                         
                     }
                 }
