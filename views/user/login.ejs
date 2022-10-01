@@ -14,6 +14,13 @@
 	crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>Login Page</title>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" 
+	integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" 
+	crossorigin="anonymous"></script>
+    <script src="../assets/js/user_script.js"></script>
+    <link href="../assets/css/style.css"/>
 </head>
 <body>
     <div style="text-align: center;padding:5rem;top: 20%;" class="container  container-fluid ">
@@ -35,63 +42,6 @@
                 <button type="cancel" class="btn btn-danger">Cancel</button>
             </form>
         </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $('.user-form').submit(function(e){
-                var uname = $('#uname').val();
-                var pwd = $('#pwd').val();
-                userlogin(uname, pwd);
-                var page = "dashboard";
-                load_page(page);
-                //e.preventDefault();
-            })
-        })
-        function userlogin(name, pwd){
-            data = {
-                name: name,
-                pwd: pwd,
-            }
-            $.ajax({
-                type: "post",
-                url: "/api/userlogin",
-                data: data,
-                dataType: "json",
-                success:function(data){
-                    if(data.status == 200){
-                        document.cookie = "User-Token="+data.token
-                    }else if(data.status == 404){
-                        alert('User not Present')
-                        
-                    }
-                }
-            })
-        }
-
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-        function load_page(pageName){
-            let cookieName = getCookie("User-Token")
-            data = {
-                page: pageName,
-                token: cookieName,
-            }
-            
-            $.ajax({
-                type: "post",
-                url: "/pageName",
-                data: data,
-                success: function(data){
-                    if(data.status == 200){
-                        console.log("Logged IN");
-                    }
-                }
-            })
-        }
-    </script>    
+    </div>    
 </body>
 </html>
